@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ursus | Barbearia de Alto Padrão</title>
+    <style>
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0c0c0c; /* Fundo mais escuro */
+            color: #e0e0e0; /* Texto mais claro para contraste */
+            line-height: 1.5;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        /* Cores neutras e escuras - mais sofisticação */
+        :root {
+            --black: #0a0a0a;
+            --dark-gray: #1e1e1e;
+            --medium-gray: #6b6b6b;
+            --light-gray: #2a2a2a;
+            --off-black: #141414;
+            --white: #f0f0f0;
+            --gold-accent: #bfa37c; /* Toque sutil de sofisticação */
+            --text-light: #cccccc;
+        }
+
+        /* Tipografia */
+        h1, h2, h3 {
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: var(--gold-accent);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin-bottom: 2rem;
+            font-weight: 200;
+            line-height: 1.8;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        /* Header / Navegação minimalista */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        /* Hero Section - com imagem grande */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%; /* Imagem maior para efeito de movimento */
+            object-fit: cover;
+            z-index: -1;
+            /*filter: brightness(1);  Mais escuro */
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            padding: 2.5rem;
+            background-color: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(8px);
+            margin-left: 5%;
+            border: 1px solid rgba(191, 163, 124, 0.2);
+            border-radius: 4px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: transparent;
+            color: var(--white);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            border: 1px solid var(--gold-accent);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--gold-accent);
+            color: var(--black);
+            border-color: var(--gold-accent);
+        }
+
+        /* Galeria de imagens grandes com efeito parallax */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background-color: var(--dark-gray);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 110%; /* Imagem maior que o container para o efeito */
+            object-fit: cover;
+            transform: translateY(0);
+            transition: transform 1.2s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+            filter: brightness(0.7);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05) translateY(-5px);
+            filter: brightness(0.9);
+        }
+
+        .gallery-item.large {
+            grid-column: span 2;
+            aspect-ratio: 16/7;
+        }
+
+        /* Parallax individual para cada imagem */
+        .parallax-item {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .parallax-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sessão de serviços com elegância */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            border-top: 1px solid var(--light-gray);
+            padding-top: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-top-color: var(--gold-accent);
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .price {
+            font-size: 1.3rem;
+            color: var(--gold-accent);
+            margin-top: 1rem;
+            font-weight: 400;
+        }
+
+        /* Sessão sobre com imagem */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-container {
+            overflow: hidden;
+            height: 600px;
+            position: relative;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 110%;
+            object-fit: cover;
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+            filter: brightness(0.6);
+        }
+
+        /* Footer sofisticado */
+        footer {
+            background-color: var(--black);
+            color: var(--text-light);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            color: var(--white);
+        }
+
+        .footer-info p {
+            color: var(--medium-gray);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--gold-accent);
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--black);
+                padding: 2rem;
+                border-bottom: 1px solid var(--light-gray);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-content {
+                margin: 0 2rem;
+                padding: 1.5rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-image-container {
+                height: 400px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item.large {
+                grid-column: span 1;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h2:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            h2 {
+                text-align: center;
+                display: block;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 4rem 0;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Efeito de overlay mais escuro */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">URSUS</a>
+        <nav>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="#inicio">Início</a>
+                <a href="#espaco">Espaço</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#contato">Contato</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section com imagem grande e parallax -->
+        <section class="hero" id="inicio">
+            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" 
+                 alt="Interior da barbearia com cadeiras e espelhos" 
+                 class="hero-image" 
+                 id="heroImage">
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1>Arte & Tradição</h1>
+                <p>Uma experiência única em cuidados masculinos. Onde o clássico encontra o moderno em um espaço pensado para você.</p>
+                <a href="#espaco" class="btn">Conheça o espaço</a>
+            </div>
+        </section>
+
+        <!-- Galeria do Espaço - Fotos Grandes com efeito scroll -->
+        <section id="espaco">
+            <div class="container">
+                <h2>O Espaço</h2>
+                <p>Ambiente sofisticado, pensado para proporcionar conforto e exclusividade. Cada detalhe foi cuidadosamente selecionado para criar uma atmosfera única.</p>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item large parallax-item">
+                        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Vista panorâmica da barbearia">
+                    </div>
+                    <div class="gallery-item parallax-item">
+                        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Estação de trabalho do barbeiro">
+                    </div>
+                    <div class="gallery-item parallax-item">
+                        <img src="https://images.unsplash.com/photo-1593702265374-bf6398700204?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjgwfHxiYXJiZWFyaWF8ZW58MHx8MHx8fDA%3D" 
+                             alt="Cadeiras e espelhos">
+                    </div>
+                    <div class="gallery-item parallax-item">
+                        <img src="https://images.unsplash.com/photo-1675599193990-33d71150902b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJhcmJlYXJpYXxlbnwwfHwwfHx8MA%3D%3D " 
+                             alt="Detalhes da decoração">
+                    </div>
+                    <div class="gallery-item parallax-item">
+                        <img src="https://images.unsplash.com/photo-1578399339237-a9f7e41789e7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODZ8fGJhcmJlYXJpYXxlbnwwfHwwfHx8MA%3D%3D" 
+                             alt="Área de espera">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Serviços -->
+        <section id="servicos" style="background-color: var(--off-black);">
+            <div class="container">
+                <h2>Serviços</h2>
+                <p>Tradição e técnicas modernas para realçar sua melhor versão.</p>
+                
+                <div class="services-grid">
+                    <div class="service-card parallax-item">
+                        <h3>Corte<br>Clássico</h3>
+                        <p>O corte tradicional com acabamento perfeito, navalha e tesoura.</p>
+                        <div class="price">R$ 120</div>
+                    </div>
+                    <div class="service-card parallax-item">
+                        <h3>Barba<br>Completa</h3>
+                        <p>Toalha quente, esfoliação e navalha para um acabamento impecável.</p>
+                        <div class="price">R$ 90</div>
+                    </div>
+                    <div class="service-card parallax-item">
+                        <h3>Combo<br>Premium</h3>
+                        <p>Corte + Barba + Hidratação com produtos exclusivos.</p>
+                        <div class="price">R$ 190</div>
+                    </div>
+                    <div class="service-card parallax-item">
+                        <h3>Tratamento<br>Capilar</h3>
+                        <p>Hidratação profunda e revitalização para todos os tipos de cabelo.</p>
+                        <div class="price">R$ 150</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre com imagem grande e parallax -->
+        <section id="sobre">
+            <div class="container">
+                <div class="about-grid">
+                    <div>
+                        <h2>Nosso espaço, sua pausa</h2>
+                        <p>Mais que uma barbearia, um refúgio urbano. A Ursus nasceu da paixão pelo cuidado masculino e pelo design. Um ambiente onde cada corte é uma experiência, cada detalhe é pensado para seu conforto.</p>
+                        <p>Nossos mestres barbeiros combinam técnicas tradicionais com tendências contemporâneas, sempre utilizando produtos de alta performance para garantir o melhor resultado.</p>
+                        <a href="#contato" class="btn">Agende seu horário</a>
+                    </div>
+                    <div class="about-image-container" id="aboutImageContainer">
+                        <img src="https://images.unsplash.com/photo-1768363446104-b8a0c1716600?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDg2fHxiYXJiZWFyaWF8ZW58MHx8MHx8fDA%3D" 
+                             alt="Barbeiro trabalhando" 
+                             class="about-image"
+                             id="aboutImage">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contato / Informações -->
+        <section id="contato" style="background-color: var(--off-black);">
+            <div class="container">
+                <h2>Contato</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                    <div class="parallax-item">
+                        <h3>Horários</h3>
+                        <p>Terça a Sábado: 10h às 20h<br>Domingo e Segunda: Fechado</p>
+                        <h3 style="margin-top: 2rem;">Endereço</h3>
+                        <p>Rua dos Barbeiros, 123<br>Jardins, São Paulo - SP</p>
+                    </div>
+                    <div class="parallax-item">
+                        <h3>Reservas</h3>
+                        <p>Telefone: (11) 98322-5545<br>Email: contato@ursus.com.br</p>
+                        <p style="margin-top: 1rem;">Atendemos apenas com horário marcado para garantir sua exclusividade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">URSUS</div>
+            <div class="footer-info">
+                <p>© 2024 Ursus Barbearia. Todos os direitos reservados.</p>
+                <p>Fotos: Unsplash - Imagens ilustrativas</p>
+            </div>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">WhatsApp</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile simples
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Efeito parallax suave nas imagens
+        window.addEventListener('scroll', () => {
+            // Parallax para hero image
+            const heroImage = document.getElementById('heroImage');
+            const scrolled = window.pageYOffset;
+            if (heroImage) {
+                heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+
+            // Parallax para about image
+            const aboutImage = document.getElementById('aboutImage');
+            const aboutContainer = document.getElementById('aboutImageContainer');
+            if (aboutImage && aboutContainer) {
+                const rect = aboutContainer.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isVisible) {
+                    const speed = 0.2;
+                    const yPos = (rect.top * speed);
+                    aboutImage.style.transform = `translateY(${yPos}px)`;
+                }
+            }
+
+            // Reveal items com fade-in e slide-up
+            const parallaxItems = document.querySelectorAll('.parallax-item');
+            parallaxItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight - 100 && rect.bottom > 0;
+                
+                if (isVisible) {
+                    item.classList.add('revealed');
+                }
+            });
+        });
+
+        // Trigger inicial para itens já visíveis
+        window.dispatchEvent(new Event('scroll'));
+
+        // Parallax individual para cada imagem da galeria
+        window.addEventListener('scroll', () => {
+            const galleryImages = document.querySelectorAll('.gallery-item img');
+            galleryImages.forEach(img => {
+                const rect = img.parentElement.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                
+                if (isVisible) {
+                    // Efeito de movimento baseado na posição do scroll
+                    const speed = 0.15;
+                    const yPos = (rect.top * speed);
+                    img.style.transform = `translateY(${Math.min(0, yPos)}px)`;
+                }
+            });
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
